@@ -9,7 +9,7 @@ import {
 
 export default function AppLayout() {
 
-    const fontIsLouded = useFonts({
+    const [fontIsLouded] = useFonts({
         Poppins_400Regular,
         Poppins_500Medium,
         Poppins_700Bold
