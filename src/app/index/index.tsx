@@ -2,8 +2,6 @@ import { useState } from "react";
 import { View, Text, TouchableHighlight, ScrollView } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 
-import { IngredientList } from "@/components/ingrendientList";
-
 import { style } from "./style";
 import { theme } from "@/theme";
 import { Ingredient } from "@/components/ingredient";

@@ -11,7 +11,7 @@ export function Ingredient(
     {title, icon, isSelected = false, ...rest}: IngredientProps & PressableProps
 ) {
     return (
-        <Pressable style={ style.container } {...rest}>
+        <Pressable style={[ style.container, isSelected && style.selected ]} {...rest}>
             <Image
                 style={ style.emoji }
                 source={require(`@/assets/tomato.png`)}

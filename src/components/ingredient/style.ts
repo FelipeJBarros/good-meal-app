@@ -17,11 +17,16 @@ export const style = StyleSheet.create({
         borderRadius: theme.borderRadius.full
     },
     title: {
-        fontFamily: fonts.family.regular,
-        fontSize: fonts.size.body.md
+        fontFamily: fonts.family.medium,
+        fontSize: fonts.size.body.sm
     },
     emoji: {
         width: 16,
         height: 16
+    },
+    selected: {
+        borderWidth: 2,
+        borderColor: theme.colors.green_600,
+        backgroundColor: theme.colors.green_100
     }
 });
