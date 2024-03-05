@@ -22,20 +22,5 @@ export const style = StyleSheet.create({
     label: {
         fontFamily: theme.fonts.family.regular,
         color: theme.colors.white
-    },
-    searchButton: {
-        backgroundColor: theme.colors.green_600,
-        borderRadius: theme.borderRadius.sm,
-
-        justifyContent: "center",
-        alignItems: "center",
-        
-        padding: 12
-    },
-    searchLabel: {
-        color: theme.colors.white,
-
-        fontFamily: theme.fonts.family.medium,
-        fontSize: theme.fonts.size.body.md
     }
 });

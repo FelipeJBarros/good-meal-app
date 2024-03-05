@@ -1,9 +1,10 @@
 import Animated, { SlideInDown, BounceOutDown } from "react-native-reanimated";
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import { style } from "./style";
 import { theme } from "@/theme";
+import { Button } from "@/components/button";
 
 type SelectedIngredientsProps = {
     quantity: number,
@@ -31,11 +32,7 @@ export function SelectedIngredients(
                     onPress={onClear}
                 />
             </View>
-            <Pressable style={ style.searchButton } onPress={onSearch}>
-                <Text style={ style.searchLabel }>
-                    Find
-                </Text>
-            </Pressable>
+            <Button title="Find" onPress={onSearch} />
         </Animated.View>
     );
 };
