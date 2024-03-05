@@ -37,5 +37,13 @@ export const style = StyleSheet.create({
 
         justifyContent: "center",
         alignItems: "center"
+    },
+    listContainer: {
+        flexWrap: "wrap",
+        flexDirection: "row",
+        gap: 12,
+        
+        paddingTop: 4,
+        marginBottom: 200
     }
 });

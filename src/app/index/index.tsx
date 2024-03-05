@@ -1,15 +1,28 @@
 import { useState } from "react";
-import { View, Text, TouchableHighlight } from "react-native";
+import { View, Text, TouchableHighlight, ScrollView } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 
 import { IngredientList } from "@/components/ingrendientList";
 
 import { style } from "./style";
 import { theme } from "@/theme";
+import { Ingredient } from "@/components/ingredient";
 
 export default function Home() {
 
-    const [selectdIngredients, setSelectdIngredients] = useState<string[]>([]);
+    const [selectdIngredients, setSelectedIngredients] = useState<string[]>([]);
+
+    function handleToggleIngredientSelection(value: string) {
+        if (selectdIngredients.includes(value)) {
+            return setSelectedIngredients(
+                selectdIngredients.filter(ingredient => ingredient !== value)
+            );
+        };
+
+        setSelectedIngredients([
+            ...selectdIngredients, value
+        ]);
+    }
 
     return (
         <View style={ style.container }>
@@ -33,7 +46,20 @@ export default function Home() {
                 you chose or through images.
             </Text>
 
-            <IngredientList />
+            <ScrollView
+                contentContainerStyle={ style.listContainer }
+                showsVerticalScrollIndicator={ false }
+            >
+                {Array.from({ length: 20}).map(
+                    (_, index) =>
+                        <Ingredient
+                            key={index}
+                            title="Tomato"
+                            isSelected={selectdIngredients.includes(String(index))}
+                            onPress={() => handleToggleIngredientSelection(String(index))}
+                        />
+                )}
+        </ScrollView>
         </View>
     );
 }
