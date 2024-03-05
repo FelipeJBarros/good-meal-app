@@ -5,7 +5,7 @@ import { style } from "./style";
 export default function Home() {
     return (
         <View style={ style.container }>
-            <Text style={ style.text }>
+            <Text>
                 Good Meal AI
             </Text>
         </View>
