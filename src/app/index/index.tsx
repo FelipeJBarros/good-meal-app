@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { View, Text, TouchableHighlight, ScrollView } from "react-native";
+import { View, Text, TouchableHighlight, ScrollView, Alert } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
+
+import { Ingredient } from "@/components/ingredient";
+import { SelectedIngredients } from "@/components/selectedIngredients";
 
 import { style } from "./style";
 import { theme } from "@/theme";
-import { Ingredient } from "@/components/ingredient";
 
 export default function Home() {
 
@@ -20,6 +22,17 @@ export default function Home() {
         setSelectedIngredients([
             ...selectdIngredients, value
         ]);
+    }
+
+    function handleSelectionClear() {
+        Alert.alert(
+            "Clean ingredients?",
+            "Do you really want to clean everything?",
+            [
+                {text: "No", style: "cancel"},
+                {text: "Yes", onPress: () => setSelectedIngredients([])}
+            ]
+        );
     }
 
     return (
@@ -48,16 +61,24 @@ export default function Home() {
                 contentContainerStyle={ style.listContainer }
                 showsVerticalScrollIndicator={ false }
             >
-                {Array.from({ length: 20}).map(
+                {Array.from({ length: 100}).map(
                     (_, index) =>
                         <Ingredient
                             key={index}
-                            title="Tomato"
+                            title="Apple"
                             isSelected={selectdIngredients.includes(String(index))}
                             onPress={() => handleToggleIngredientSelection(String(index))}
                         />
                 )}
-        </ScrollView>
+            </ScrollView>
+            
+            { selectdIngredients.length > 0 && (
+                <SelectedIngredients
+                    quantity={selectdIngredients.length}
+                    onClear={handleSelectionClear}
+                    onSearch={() => {}}
+                />
+            )}
         </View>
     );
 }

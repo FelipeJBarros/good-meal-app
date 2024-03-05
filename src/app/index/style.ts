@@ -44,6 +44,6 @@ export const style = StyleSheet.create({
         gap: 12,
         
         paddingTop: 4,
-        marginBottom: 200
+        paddingBottom: 200
     }
 });
