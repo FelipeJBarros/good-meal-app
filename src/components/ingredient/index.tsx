@@ -14,7 +14,7 @@ export function Ingredient(
         <Pressable style={[ style.container, isSelected && style.selected ]} {...rest}>
             <Image
                 style={ style.emoji }
-                source={require(`@/assets/tomato.png`)}
+                source={{ uri: icon }}
             />
             <Text style={ style.title }>
                 { title }

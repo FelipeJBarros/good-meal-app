@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, TouchableHighlight, ScrollView, Alert } from "react-native";
+import { router } from "expo-router";
 import { MaterialIcons } from '@expo/vector-icons';
 
 import { Ingredient } from "@/components/ingredient";
@@ -8,8 +9,11 @@ import { SelectedIngredients } from "@/components/selectedIngredients";
 import { style } from "./style";
 import { theme } from "@/theme";
 
+import { services } from "@/services"
+
 export default function Home() {
 
+    const [ingredients, setIngredients] = useState<IngredientResponse[]>([]);
     const [selectdIngredients, setSelectedIngredients] = useState<string[]>([]);
 
     function handleToggleIngredientSelection(value: string) {
@@ -24,6 +28,10 @@ export default function Home() {
         ]);
     }
 
+    function handleRecipesSearch() {
+        router.navigate("/recipes");
+    }
+
     function handleSelectionClear() {
         Alert.alert(
             "Clean ingredients?",
@@ -34,6 +42,10 @@ export default function Home() {
             ]
         );
     }
+
+    useEffect(() => {
+        services.ingredients.findAll().then(setIngredients);
+    }, []);
 
     return (
         <View style={ style.container }>
@@ -61,13 +73,14 @@ export default function Home() {
                 contentContainerStyle={ style.listContainer }
                 showsVerticalScrollIndicator={ false }
             >
-                {Array.from({ length: 100}).map(
-                    (_, index) =>
+                {ingredients.map(
+                    (ingredient) =>
                         <Ingredient
-                            key={index}
-                            title="Apple"
-                            isSelected={selectdIngredients.includes(String(index))}
-                            onPress={() => handleToggleIngredientSelection(String(index))}
+                            key={ingredient.id}
+                            title={ingredient.name}
+                            icon={`${services.storage.imagePath}/${ingredient.image}`}
+                            isSelected={selectdIngredients.includes(ingredient.id)}
+                            onPress={() => handleToggleIngredientSelection(ingredient.id)}
                         />
                 )}
             </ScrollView>
@@ -76,7 +89,7 @@ export default function Home() {
                 <SelectedIngredients
                     quantity={selectdIngredients.length}
                     onClear={handleSelectionClear}
-                    onSearch={() => {}}
+                    onSearch={handleRecipesSearch}
                 />
             )}
         </View>
