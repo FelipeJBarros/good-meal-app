@@ -1,10 +1,16 @@
+import { useState } from "react";
 import { View, Text, TouchableHighlight } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
+
+import { IngredientList } from "@/components/ingrendientList";
 
 import { style } from "./style";
 import { theme } from "@/theme";
 
 export default function Home() {
+
+    const [selectdIngredients, setSelectdIngredients] = useState<string[]>([]);
+
     return (
         <View style={ style.container }>
             <View style={ style.row }>
@@ -26,6 +32,8 @@ export default function Home() {
                 Discover recipes based on the products {"\n"}
                 you chose or through images.
             </Text>
+
+            <IngredientList />
         </View>
     );
 }
