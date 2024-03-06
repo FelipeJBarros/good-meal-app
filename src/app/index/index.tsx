@@ -29,7 +29,7 @@ export default function Home() {
     }
 
     function handleRecipesSearch() {
-        router.navigate("/recipes");
+        router.navigate("/recipes/" + selectdIngredients);
     }
 
     function handleSelectionClear() {
