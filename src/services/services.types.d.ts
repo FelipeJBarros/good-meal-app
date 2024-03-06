@@ -10,3 +10,10 @@ type RecipeResponse = {
     image: string,
     time: number
 }
+
+type PreparationResponse = {
+    id: string,
+    recipe_id: string,
+    description: string,
+    step: number
+}
