@@ -77,8 +77,8 @@ export default function Home() {
                     (ingredient) =>
                         <Ingredient
                             key={ingredient.id}
-                            title={ingredient.name}
-                            icon={`${services.storage.imagePath}/${ingredient.image}`}
+                            name={ingredient.name}
+                            image={`${services.storage.imagePath}/${ingredient.image}`}
                             isSelected={selectdIngredients.includes(ingredient.id)}
                             onPress={() => handleToggleIngredientSelection(ingredient.id)}
                         />
