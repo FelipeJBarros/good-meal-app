@@ -20,12 +20,12 @@ export const style = StyleSheet.create({
     },
     title: {
         color: theme.colors.white,
-        fontSize: theme.fonts.size.body.sm,
+        fontSize: theme.fonts.size.body.md,
         fontFamily: theme.fonts.family.bold
     },
     time: {
         color: theme.colors.yellow_500,
-        fontSize: theme.fonts.size.body.xs,
+        fontSize: theme.fonts.size.body.sm,
         fontFamily: theme.fonts.family.regular
     }
 });

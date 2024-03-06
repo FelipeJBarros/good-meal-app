@@ -37,7 +37,7 @@ export function Recipe({ recipe, ...rest }: RecipeProps) {
                         numberOfLines={ 1 }
                         lineBreakMode="tail"
                     >
-                        { recipe.time }
+                        { `${recipe.time} minute${recipe.time > 1 ? 's' : ''}` }
                     </Text>
                 </LinearGradient>
             </ImageBackground>
