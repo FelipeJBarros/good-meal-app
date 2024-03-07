@@ -13,7 +13,7 @@ export async function findByIds(ids: string[]) {
 
 export async function findByRecipeId(id: string) {
     const { data } = await supabase
-        .from("recipe_ingredients")
+        .from("recipes_ingredients")
         .select("ingredients (id, name, image)")
         .eq("recipe_id", id)
         .returns<{ ingredients: IngredientResponse }[]>();
