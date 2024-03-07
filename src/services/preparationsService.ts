@@ -5,6 +5,7 @@ export async function findByRecipeId(id: string) {
         .from("preparations")
         .select()
         .eq("recipe_id", id)
+        .order("step")
         .returns<PreparationResponse[]>();
 
     return data ?? [];

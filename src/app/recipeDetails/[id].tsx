@@ -62,23 +62,12 @@ export default function RecipeDetails() {
                     <View style={{ gap: 16, paddingBottom: 24}}>
                         {preparations.map(preparation => (
                             <RecipeStep
+                                key={preparation.id}
                                 step={ preparation.step }
                                 description={ preparation.description }
                             />
                         ))}
                     </View>
-
-                    {/* <FlatList
-                        data={preparations}
-                        renderItem={({ item }) => (
-                            <RecipeStep
-                                step={ item.step }
-                                description={ item.description }
-                            />
-                        )}
-                        contentContainerStyle={{ gap: 16, paddingBottom: 22 }}
-                        showsVerticalScrollIndicator={ false }
-                    /> */}
                 </View>
             </View>
         </ScrollView>
