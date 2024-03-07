@@ -47,7 +47,12 @@ export default function Recipes() {
                 keyExtractor={ item => item.id }
                 renderItem={
                     ({ item }) => 
-                        <Recipe recipe={item} />
+                        <Recipe
+                            recipe={item}
+                            onPress={
+                                () => router.navigate("/recipeDetails/" + item.id
+                            )}
+                        />
                 }
                 style={ style.recipes }
                 contentContainerStyle={ style.recipesContent }
