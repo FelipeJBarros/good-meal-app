@@ -7,6 +7,6 @@ export const style = StyleSheet.create({
     },
     ingredientContent: {
         gap: 12,
-        paddingHorizontal: 32
+        paddingHorizontal: 24
     }
 });

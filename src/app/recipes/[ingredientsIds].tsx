@@ -12,6 +12,7 @@ import { IngredientList } from "@/components/ingredientList";
 import { useQuery } from "@tanstack/react-query";
 import { Loading } from "@/components/loading";
 import { Error } from "@/components/error";
+import { RecipesNotFound } from "@/components/recipesNotFound";
 
 export default function Recipes() {
     const params = useLocalSearchParams<{ ingredientsIds: string }>();
@@ -33,6 +34,7 @@ export default function Recipes() {
     } = useQuery({
         queryKey: [ "recipes" ],
         queryFn: () => services.recipes.findByIngredientsIds(ingredientsIds),
+        initialData: [],
         enabled: ingredients && ingredients.length > 0
     });
 
@@ -42,6 +44,15 @@ export default function Recipes() {
 
     if ( ingredientsError || recipesError ) {
         return <Error />
+    }
+
+    if ( recipes.length <= 0) {
+        return (
+            <RecipesNotFound
+                message="We are still working on recipes with these ingredients."
+                ingredients={ingredients!}
+            />
+        )
     }
 
     return (
@@ -64,6 +75,8 @@ export default function Recipes() {
                 }
 
             </View>
+
+        
             <FlatList
                 data={recipes}
                 keyExtractor={ item => item.id }
@@ -80,6 +93,8 @@ export default function Recipes() {
                 contentContainerStyle={ style.recipesContent }
                 showsVerticalScrollIndicator={ false }
             />
+            
+
         </View>
     );
 }
