@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { FlatList, Text, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -10,21 +9,40 @@ import { theme } from "@/theme";
 
 import { services } from "@/services";
 import { IngredientList } from "@/components/ingredientList";
+import { useQuery } from "@tanstack/react-query";
+import { Loading } from "@/components/loading";
+import { Error } from "@/components/error";
 
 export default function Recipes() {
     const params = useLocalSearchParams<{ ingredientsIds: string }>();
     const ingredientsIds = params.ingredientsIds.split(",");
 
-    const [ ingredients, setIngredients ] = useState<IngredientResponse[]>([]);
-    const [ recipes, setRecipes ] = useState<RecipeResponse[]>();
+    const { 
+        data: ingredients,
+        isFetching: isIngredientsFetching,
+        error: ingredientsError
+    } = useQuery({
+        queryKey: [ "recipes-ingredients" ],
+        queryFn: () => services.ingredients.findByIds(ingredientsIds)
+    });
 
-    useEffect(() => {
-        services.ingredients.findByIds(ingredientsIds).then(setIngredients);
-    }, []);
+    const {
+        data: recipes,
+        isFetching: isRecipesFetching,
+        error: recipesError
+    } = useQuery({
+        queryKey: [ "recipes" ],
+        queryFn: () => services.recipes.findByIngredientsIds(ingredientsIds),
+        enabled: ingredients && ingredients.length > 0
+    });
 
-    useEffect(() => {
-        services.recipes.findByIngredientsIds(ingredientsIds).then(setRecipes);
-    }, []);
+    if ( isIngredientsFetching || isRecipesFetching ) {
+        return <Loading message="Consulting grandma's old recipe books..."/>
+    }
+
+    if ( ingredientsError || recipesError ) {
+        return <Error />
+    }
 
     return (
         <View style={ style.container }>
@@ -40,7 +58,11 @@ export default function Recipes() {
                 <Text style={ style.title }>
                     Ingredients
                 </Text>
-                <IngredientList ingredients={ingredients} />
+
+                { ingredients &&
+                    <IngredientList ingredients={ingredients} />
+                }
+
             </View>
             <FlatList
                 data={recipes}

@@ -22,7 +22,7 @@ export default function Home() {
         error
     } = useQuery({
         queryKey: [ "ingredients" ],
-        queryFn: () => services.ingredients.findAll() 
+        queryFn: services.ingredients.findAll 
     });
 
     const [selectdIngredients, setSelectedIngredients] = useState<string[]>([]);
