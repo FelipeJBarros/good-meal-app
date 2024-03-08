@@ -1,33 +1,59 @@
-import { useEffect, useState } from "react";
-
 import { Image, Text, View, FlatList, ScrollView } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
+import { MaterialIcons } from "@expo/vector-icons";
+
+import { IngredientList } from "@/components/ingredientList";
+import { RecipeStep } from "@/components/recipeStep";
+import { Loading } from "@/components/loading";
+import { Error } from "@/components/error";
 
 import { style } from "./style";
 
 import { services } from "@/services";
-import { MaterialIcons } from "@expo/vector-icons";
-import { IngredientList } from "@/components/ingredientList";
-import { RecipeStep } from "@/components/recipeStep";
+import { useQuery } from "@tanstack/react-query";
+
 
 export default function RecipeDetails() {
     const { id } = useLocalSearchParams<{ id: string }>();
 
-    const [ recipe , setRecipe ] = useState<RecipeResponse | null>(null);
-    const [ ingredients , setIngredients ] = useState<IngredientResponse[]>([]);
-    const [ preparations , setPreparations ] = useState<PreparationResponse[]>([]);
-    
-    useEffect(() => {
-        services.recipes.show(id).then(setRecipe);
-    }, []);
+    const {
+        data: recipe,
+        isFetching: isRecipeFetching,
+        isError: recipeError
+    } = useQuery({
+        queryKey: ["recipe-details", id],
+        queryFn: () => services.recipes.show(id),
+        initialData: {} as RecipeResponse
+    });
 
-    useEffect(() => {
-        services.ingredients.findByRecipeId(id).then(setIngredients);
-    }, []);
+    const {
+        data: ingredients,
+        isFetching: isIngredientsFetching,
+        isError: ingredientsError
+    } = useQuery({
+        queryKey: ["recipe-details-ingredients", id],
+        queryFn: () => services.ingredients.findByRecipeId(recipe!.id),
+        enabled: !!recipe?.id
+    });
 
-    useEffect(() => {
-        services.preparations.findByRecipeId(id).then(setPreparations);
-    }, []);
+    const {
+        data: preparations,
+        isFetching: isPreparationsFetching,
+        isError: preparationsError
+    } = useQuery({
+        queryKey: ["recipe-details-steps", id],
+        queryFn: () => services.preparations.findByRecipeId(recipe!.id),
+        enabled: !!recipe?.id
+    });
+
+    if ( isRecipeFetching || isIngredientsFetching || isPreparationsFetching ) {
+        return <Loading message="let's go cooking good looking"/>
+    }
+
+    if ( recipeError || ingredientsError || preparationsError) {
+        return <Error />
+    }
+
 
     return (
         <ScrollView
@@ -54,13 +80,15 @@ export default function RecipeDetails() {
                     <Text style={ style.title }>Ingredients</Text>
                 </View>
 
-                <IngredientList ingredients={ ingredients } />
+                { ingredients &&
+                    <IngredientList ingredients={ ingredients } />
+                }
 
                 <View style={ style.preparation }>
                     <Text style={ style.title }>Preparation mode</Text>
 
                     <View style={{ gap: 16, paddingBottom: 24}}>
-                        {preparations.map(preparation => (
+                        {preparations?.map(preparation => (
                             <RecipeStep
                                 key={preparation.id}
                                 step={ preparation.step }
