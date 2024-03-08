@@ -20,8 +20,7 @@ export function IngredientList({ ingredients }: IngredientListProps) {
                 <Ingredient
                     key={ ingredient.name }
                     name={ ingredient.name }
-                    image={`${services.storage.imagePath}/${ingredient.image}`}
-                    
+                    image={`${services.storage.imagePath}/${ingredient.image}`}        
                 />
             ))}
             

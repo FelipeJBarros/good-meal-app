@@ -67,7 +67,7 @@ export default function Recipes() {
                     }}
                 />
                 <Text style={ style.title }>
-                    Ingredients
+                    Ingredients selected
                 </Text>
 
                 { ingredients &&
@@ -76,7 +76,6 @@ export default function Recipes() {
 
             </View>
 
-        
             <FlatList
                 data={recipes}
                 keyExtractor={ item => item.id }
@@ -93,8 +92,6 @@ export default function Recipes() {
                 contentContainerStyle={ style.recipesContent }
                 showsVerticalScrollIndicator={ false }
             />
-            
-
         </View>
     );
 }
