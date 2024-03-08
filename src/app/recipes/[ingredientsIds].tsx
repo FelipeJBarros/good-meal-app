@@ -20,7 +20,7 @@ export default function Recipes() {
 
     const { 
         data: ingredients,
-        isFetching: isIngredientsFetching,
+        isPending: isIngredientsPending,
         error: ingredientsError
     } = useQuery({
         queryKey: [ "recipes-ingredients" ],
@@ -29,24 +29,27 @@ export default function Recipes() {
 
     const {
         data: recipes,
-        isFetching: isRecipesFetching,
-        error: recipesError
+        isPending: isRecipesPending,
+        error: recipesError,
+        isFetching
     } = useQuery({
         queryKey: [ "recipes" ],
         queryFn: () => services.recipes.findByIngredientsIds(ingredientsIds),
         initialData: [],
-        enabled: ingredients && ingredients.length > 0
     });
 
-    if ( isIngredientsFetching || isRecipesFetching ) {
+    const isPeding = isIngredientsPending || isRecipesPending;
+    const hasError = ingredientsError || recipesError
+
+    if ( isPeding ) {
         return <Loading message="Consulting grandma's old recipe books..."/>
     }
 
-    if ( ingredientsError || recipesError ) {
+    if ( hasError ) {
         return <Error />
     }
 
-    if ( recipes.length <= 0) {
+    if ( !isFetching && recipes.length <= 0) {
         return (
             <RecipesNotFound
                 message="We are still working on recipes with these ingredients."

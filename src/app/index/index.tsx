@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, Text, TouchableHighlight, ScrollView, Alert } from "react-native";
 import { router } from "expo-router";
-import { MaterialIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 import { Ingredient } from "@/components/ingredient";
 import { SelectedIngredients } from "@/components/selectedIngredients";
@@ -11,10 +11,12 @@ import { Error } from "@/components/error";
 import { style } from "./style";
 import { theme } from "@/theme";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { services } from "@/services"
 
 export default function Home() {
+
+    const queryClient = useQueryClient();
 
     const {
         data: ingredients,
@@ -40,13 +42,18 @@ export default function Home() {
     }
 
     function handleRecipesSearch() {
+        queryClient.removeQueries({
+            predicate: (query) => 
+                query.queryKey[0] === "recipes-ingredients" ||
+                query.queryKey[0] === "recipes"
+        });
         router.navigate("/recipes/" + selectdIngredients);
     }
 
     function handleSelectionClear() {
         Alert.alert(
-            "Clean ingredients?",
-            "Do you really want to clean everything?",
+            "Emptying the basket",
+            "Do you really want to remove everything?",
             [
                 {text: "No", style: "cancel"},
                 {text: "Yes", onPress: () => setSelectedIngredients([])}
@@ -71,17 +78,15 @@ export default function Home() {
                         ingredients
                     </Text>
                 </Text>
-                <TouchableHighlight style={ style.photoButton }>
-                    <MaterialIcons
-                        name="add-a-photo"
-                        size={20}
-                        color={ theme.colors.white }
-                    />
-                </TouchableHighlight>
+                <Ionicons
+                    name="fast-food-sharp"
+                    size={32}
+                    color={ theme.colors.green_600 }
+                />
             </View>
             <Text style={ style.message }>
                 Discover recipes based on the products {"\n"}
-                you chose or through images.
+                you have.
             </Text>
 
             <ScrollView
