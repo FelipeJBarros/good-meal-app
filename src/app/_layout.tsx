@@ -7,6 +7,13 @@ import {
     Poppins_700Bold
 } from "@expo-google-fonts/poppins";
 
+import { 
+    QueryClient,
+    QueryClientProvider
+} from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
+
 export default function AppLayout() {
 
     const [fontIsLouded] = useFonts({
@@ -19,5 +26,9 @@ export default function AppLayout() {
         return;
     }
 
-    return fontIsLouded ? <Slot /> : null;
+    return (
+        <QueryClientProvider client={ queryClient }>
+            { fontIsLouded ? <Slot /> : null }
+        </QueryClientProvider>
+    );
 };

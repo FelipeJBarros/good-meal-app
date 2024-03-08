@@ -6,6 +6,7 @@ export const style = StyleSheet.create({
         backgroundColor: theme.colors.green_600,
 
         height: 48,
+        paddingHorizontal: 24,
 
         alignItems: "center",
         justifyContent: "center",

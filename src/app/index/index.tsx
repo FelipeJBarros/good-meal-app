@@ -1,19 +1,30 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { View, Text, TouchableHighlight, ScrollView, Alert } from "react-native";
 import { router } from "expo-router";
 import { MaterialIcons } from '@expo/vector-icons';
 
 import { Ingredient } from "@/components/ingredient";
 import { SelectedIngredients } from "@/components/selectedIngredients";
+import { Loading } from "@/components/loading";
+import { Error } from "@/components/error";
 
 import { style } from "./style";
 import { theme } from "@/theme";
 
+import { useQuery } from "@tanstack/react-query";
 import { services } from "@/services"
 
 export default function Home() {
 
-    const [ingredients, setIngredients] = useState<IngredientResponse[]>([]);
+    const {
+        data: ingredients,
+        isPending,
+        error
+    } = useQuery({
+        queryKey: [ "ingredients" ],
+        queryFn: () => services.ingredients.findAll() 
+    });
+
     const [selectdIngredients, setSelectedIngredients] = useState<string[]>([]);
 
     function handleToggleIngredientSelection(value: string) {
@@ -43,9 +54,13 @@ export default function Home() {
         );
     }
 
-    useEffect(() => {
-        services.ingredients.findAll().then(setIngredients);
-    }, []);
+    if ( isPending ) {
+        return <Loading  message="Let's see what is in the fridge..."/>
+    }
+
+    if ( error ) {
+        return <Error />
+    }
 
     return (
         <View style={ style.container }>
@@ -73,7 +88,7 @@ export default function Home() {
                 contentContainerStyle={ style.listContainer }
                 showsVerticalScrollIndicator={ false }
             >
-                {ingredients.map(
+                {ingredients?.map(
                     (ingredient) =>
                         <Ingredient
                             key={ingredient.id}
