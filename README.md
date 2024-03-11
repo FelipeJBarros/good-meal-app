@@ -19,7 +19,7 @@
 
 
 > Selecione os ingredientes que você possui ou está com vontade de experimentar e encontre uma lista de receitas deliciosas e como prepara-las.
-> **Feito com React Native e Expo, Good Meal app é 100% grátis e está disponivel para Android e IOS.**
+> **Feito com React Native, Good Meal app é 100% grátis e pode ser disponibilizado para Android e IOS.**
 
 ## Tecnologias:
 
