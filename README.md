@@ -1,12 +1,10 @@
-<h1 align="center">
+<p align="center">
   <br>
   <img src="https://github.com/FelipeJBarros/good-meal-app/blob/main/assets/images/good-meal.png?raw=true" alt="Markdownify" width="200">
   <br>
   <h4 align="center">Acesso à receitas com o que tem na sua geladeira. Feito com React Native.</h4>
   <br>
 </h1>
-
----
 
 ## Sobre o projeto:
 
