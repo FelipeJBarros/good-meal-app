@@ -63,7 +63,7 @@ Você pode seguir os passos de instalação do [Expo](https://docs.expo.dev/get-
    npm install
    ```
    
-3. Crie e configure o arquivo `.env`:
+3. Crie e configure o arquivo `.env` na raiz do projeto:
    
    ```js
    EXPO_PUBLIC_SUPABASE_URL=cole_sua_chave_aqui
